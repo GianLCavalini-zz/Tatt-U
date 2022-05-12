@@ -1,11 +1,13 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-const UserModel = require("../models/User.model");
+const UserModel = require("../Models/User.Model");
 const generateToken = require("../Config/jwt.config");
 const isAuth = require("../middlewares/isAuth");
 const attachCurrentUser = require("../Middlewares/attachCurrentUser");
 const isArtist = require("../Middlewares/isArtist");
 const saltRounds = 10;
+
+
 router.post("/signup", async (req, res) => {
     try {
         

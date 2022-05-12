@@ -8,7 +8,8 @@ app.use(express.json());
 const userRouter = require("./Routes/user.routes");
 app.use("/user", userRouter)
 
-
+const postRouter = require("./Routes/post.routes");
+app.use("/post", postRouter)
 
 app.listen(Number(process.env.PORT), () => {
   console.log("Server up at port: ", process.env.PORT);

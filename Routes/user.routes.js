@@ -59,7 +59,6 @@ router.get("/profile", isAuth, attachCurrentUser, (req, res) => {
     return res.status(200).json(req.currentUser);
 });
 
-
 // UPDATE USER PROFILE
 router.patch("/update-user-profile", isAuth, attachCurrentUser, async (req, res) => {
     try {

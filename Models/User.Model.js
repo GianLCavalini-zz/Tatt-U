@@ -18,7 +18,7 @@ const userSchema = new Schema({
   role: { type: String, enum: ["ADMIN", "USER", "ARTIST"], default: "USER" },
   followings: { type: Array, default:[]},
   followers: { type: Array, default:[]},
-  post: { type: mongoose.Types.ObjectId, ref: "Post"},
+  post: [{ type: mongoose.Types.ObjectId, ref: "Post"}],
   contact: {type: Number, 
   match: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, required: true}
 

@@ -103,4 +103,79 @@ router.delete(
         }
     }
 );
+
+//get following artists
+router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) => {
+    const loggedInUser = req.currentUser;
+    try {
+      
+      const artists = await Promise.all(
+        loggedInUser.followings.map((artistId) => {
+          return UserModel.findById(artistId);
+        })
+      );
+      let artistList = [];
+      artists.map((currentArtist) => {
+        const { _id, username, profilePicture } = currentArtist;
+        artistList.push({ _id, username, profilePicture });
+      });
+      res.status(200).json(artistList)
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+  
+  //follow a user
+  
+  router.put("/follow/:id", isAuth, attachCurrentUser, async (req, res) => {
+    const loggedInUser = req.currentUser;
+    if (loggedInUser._id !== req.params.id) {
+
+      try {
+
+        
+        const artist = await UserModel.findById(req.params.id);
+        
+        if (!artist.followers.includes(req.body.userId)) {
+          await artist.updateOne({ $push: { followers: loggedInUser._id } });
+          await loggedInUser.updateOne({ $push: { followings: req.params.id } });
+          res.status(200).json("user has been followed");
+        } else {
+          res.status(403).json("you allready follow this user");
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(403).json("you cant follow yourself");
+    }
+  });
+  
+  //unfollow a user
+  
+  router.put("/unfollow/:id", isAuth, attachCurrentUser, async (req, res) => {
+    const loggedInUser = req.currentUser;
+    if (loggedInUser._id !== req.params.id) {
+      try {
+        const artist = await UserModel.findById(req.params.id);
+        
+        if (artist.followers.includes(req.body.userId)) {
+          await artist.updateOne({ $pull: { followers: loggedInUser._id } });
+          await loggedInUser.updateOne({ $pull: { followings: req.params.id } });
+          res.status(200).json("user has been unfollowed");
+        } else {
+          res.status(403).json("you dont follow this user");
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(403).json("you cant unfollow yourself");
+    }
+  });
+  
+  module.exports = router;
+
+
+
 module.exports = router;

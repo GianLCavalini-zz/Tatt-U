@@ -1,6 +1,7 @@
 const { Schema, model, default: mongoose } = require("mongoose");
 
 const postSchema = new Schema({
+	owner: {type: mongoose.Types.ObjectId, ref: "User"},
 	userId: {type: String},
 	desc: {
 		type: String,
@@ -11,8 +12,7 @@ const postSchema = new Schema({
 		required: true
 	},
 	likes: {
-		type: Array,
-		default: [],
+		type: Array
 	},
 });
 

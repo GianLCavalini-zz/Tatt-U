@@ -48,6 +48,8 @@ router.patch("/update-post/:postId", isAuth, attachCurrentUser, async (req, res)
 	}
 });
 
+
+// delete a post
 router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) => {
 	
 	
@@ -92,22 +94,6 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 
   // dislike a post
 
-  router.put("/dislike/:postId", isAuth, attachCurrentUser, async (req, res) => {
-
-	const loggedInUser = req.currentUser;
-
-	try {
-
-	  const post = await PostModel.findById(req.params.postId);
-
-
-		await post.updateOne({ $pull: { likes: req.body.userId } });
-		res.status(200).json("The post has been disliked");
-	  
-	} catch (err) {
-	  res.status(500).json(err);
-	}
-  });
 
   //get a post
   

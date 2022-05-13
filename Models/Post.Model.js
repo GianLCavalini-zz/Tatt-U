@@ -1,7 +1,7 @@
 const { Schema, model, default: mongoose } = require("mongoose");
 
 const postSchema = new Schema({
-	autor: {type: mongoose.Types.ObjectId, ref: "User"},
+	userId: {type: String},
 	desc: {
 		type: String,
 		max: 500,

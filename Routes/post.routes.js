@@ -120,23 +120,7 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 	}
   });
   
-  //get timeline posts
-  
-  router.get("/timeline/:artistId", async (req, res) => {
-	try {
-		const loggedInUser = req.currentUser;
-	  const artistPosts = await PostModel.find({ userId: loggedInUser._id });
-	  const friendPosts = await Promise.all(
-		loggedInUser.followings.map((friendId) => {
-		  return PostModel.find({ userId: friendId });
-		})
-	  );
-	  res.status(200).json(userPosts.concat(...friendPosts));
-	} catch (err) {
-	  res.status(500).json(err);
-	}
-  });
-  	
+
   //get user's all posts
   
   router.get("/profile/:artistname", async (req, res) => {

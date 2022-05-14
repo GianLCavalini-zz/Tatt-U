@@ -11,6 +11,9 @@ app.use(cors({ origin:process.env.REACT_APP_URL}))
 const userRouter = require("./Routes/user.routes");
 app.use("/user", userRouter);
 
+const uploadImg = require("./Routes/upload.routes");
+app.use("/img", uploadImg)
+
 const postRouter = require("./Routes/post.routes");
 app.use("/post", postRouter);
 

@@ -20,7 +20,7 @@ const userSchema = new Schema({
   followers: { type: Array, default:[]},
   post: { type: Array, default:[]},
   contact: {type: Number, 
-  match: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, required: true}
+  match: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/}
 
 
 });

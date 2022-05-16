@@ -8,19 +8,21 @@ const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
 router.post("/create", isAuth, attachCurrentUser, async (req, res) => {
 
-    const loggedInUser = req.currentUser;
+    
     
 	try {
-        if(loggedInUser.role !== "ARTIST") {
+		const loggedInUser = req.currentUser;
+        if(loggedInUser.role === "USER") {
             return res.status(400).json({ msg: "Only artists can create a Post!"})
         }
 		const createdPost = await PostModel.create({
 			...req.body,
+			userId: loggedInUser._id
 		});
         await UserModel.findOneAndUpdate(
-            { _id: loggedInUser._id },
+            { userId: loggedInUser._id },
             { $push: { post: createdPost } },
-            { runValidators: true }
+            { runValidators: true, new: true }
           );
 		res.status(200).json(createdPost);
 	} catch (err) {
@@ -30,23 +32,24 @@ router.post("/create", isAuth, attachCurrentUser, async (req, res) => {
 
 // update a post
 
-router.patch("/update-post/:postId", isAuth, attachCurrentUser, async (req, res) => {
+router.put("/update-post/:id", isAuth, attachCurrentUser, async (req, res) => {
 
-    const loggedInUser = req.currentUser;
-
+	
+	
 	try {
 
-		const post = await PostModel.findById(req.params.id);
-		if (post.userId === loggedInUser._id) {
-			await post.updateOne({ $set: req.body });
-			res.status(200).json("the post has been updated");
-		} else {
-			res.status(403).json("you can update only your post");
-		}
+		
+		const updatedPost = await PostModel.findOneAndUpdate(
+            { _id: req.params.id },
+            { ...req.body },
+            { runValidators: true, new: true }
+        );
+
+		res.status(200).json(updatedPost);
 	} catch (err) {
-		res.status(500).json(err);
+	  res.status(500).json(err);
 	}
-});
+  });
 
 
 // delete a post
@@ -55,20 +58,24 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 	
 	const loggedInUser = req.currentUser;
 
-
+	const {id} = loggedInUser;
 	try {
+	  	
 	  const post = await PostModel.findById(req.params.id);
-	  
+	  if( id === post.userId ) {
 		await post.deleteOne();
 		res.status(200).json("the post has been deleted");
-	 
+	  }
+	  else {
+		  return res.status(400).json({msg: "You can only delete your posts"})
+	  }
 	} catch (err) {
 	  res.status(500).json(err);
 	}
   });
 
 
-  //like a post
+  //like,dislike a post
   
   router.put("/like/:postId", isAuth, attachCurrentUser, async (req, res) => {
 
@@ -78,7 +85,7 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 
 	  const post = await PostModel.findById(req.params.postId);
 
-	  if (!post.likes.includes(req.body.userId)) {
+	  if (!post.likes.includes(loggedInUser._id)) {
 		await post.updateOne({ $push: { likes: loggedInUser._id } });
 		res.status(200).json("The post has been liked");
 	  } 
@@ -92,14 +99,14 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
   });
 
 
-  // dislike a post
+  
 
 
   //get a post
   
   router.get("/:id", isAuth, attachCurrentUser, async (req, res) => {
 	try {
-	  const post = await PostModel.findById(req.params.id);
+	  const post = await PostModel.findById(req.params.id).populate("owner");
 	  res.status(200).json(post);
 	} catch (err) {
 	  res.status(500).json(err);
@@ -107,7 +114,7 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
   });
   
 
-  //get user's all posts
+  //get artist's all posts
   
   router.get("/profile/:artistname", async (req, res) => {
 	try {
@@ -118,5 +125,11 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 	  res.status(500).json(err);
 	}
   });
+
+
+
+
+
+
 
   module.exports = router;

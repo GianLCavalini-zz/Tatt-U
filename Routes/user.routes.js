@@ -65,8 +65,8 @@ router.patch("/update-user-profile", isAuth, attachCurrentUser, async (req, res)
         const loggedInUser = req.currentUser;
         if (req.body.password) {
             try {
-              const salt = await bcrypt.genSalt(10);
-              req.body.password = await bcrypt.hash(req.body.password, salt);
+                const salt = await bcrypt.genSalt(saltRounds);
+                const passwordHash = await bcrypt.hash(password, salt);
             } catch (err) {
               return res.status(500).json(err);
             }
@@ -104,6 +104,18 @@ router.delete(
     }
 );
 
+// get a user
+
+router.get("/:id", isAuth, attachCurrentUser, async (req, res) => {
+	try {
+	  const user = await UserModel.findById(req.params.id).populate("post");
+	  res.status(200).json(user);
+	} catch (err) {
+	  res.status(500).json(err);
+	}
+  });
+  
+
 //get following artists
 router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) => {
     const loggedInUser = req.currentUser;
@@ -121,6 +133,7 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
       });
       res.status(200).json(artistList)
     } catch (err) {
+        console.log(err)
       res.status(500).json(err);
     }
   });
@@ -136,9 +149,9 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
         
         const artist = await UserModel.findById(req.params.id);
         
-        if (!artist.followers.includes(req.body.userId)) {
+        if (!artist.followers.includes(loggedInUser._id)) {
           await artist.updateOne({ $push: { followers: loggedInUser._id } });
-          await loggedInUser.updateOne({ $push: { followings: req.params.id } });
+          await loggedInUser.updateOne({ $push: { followings: artist._id } });
           res.status(200).json("user has been followed");
         } else {
           res.status(403).json("you allready follow this user");
@@ -151,17 +164,19 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
     }
   });
   
+
   //unfollow a user
   
+
   router.put("/unfollow/:id", isAuth, attachCurrentUser, async (req, res) => {
     const loggedInUser = req.currentUser;
     if (loggedInUser._id !== req.params.id) {
       try {
         const artist = await UserModel.findById(req.params.id);
         
-        if (artist.followers.includes(req.body.userId)) {
+        if (artist.followers.includes(loggedInUser._id)) {
           await artist.updateOne({ $pull: { followers: loggedInUser._id } });
-          await loggedInUser.updateOne({ $pull: { followings: req.params.id } });
+          await loggedInUser.updateOne({ $pull: { followings: artist._id } });
           res.status(200).json("user has been unfollowed");
         } else {
           res.status(403).json("you dont follow this user");
@@ -174,7 +189,7 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
     }
   });
   
-  module.exports = router;
+ 
 
 
 

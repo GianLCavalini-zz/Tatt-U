@@ -20,9 +20,6 @@ app.use("/post", postRouter);
 const messageRouter = require("./Routes/message.routes");
 app.use("/chat", messageRouter)
 
-app.get("/", (req, res)=>{
-  return res.send("ta funcionando")
-}) 
 
 app.listen(Number(process.env.PORT), () => {
   console.log("Server up at port: ", process.env.PORT);

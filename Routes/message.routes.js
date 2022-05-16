@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const PostModel = require("../Models/Post.Model");
-const UserModel = require("../Models/User.Model");
+const PostModel = require("../models/Post.Model");
+const UserModel = require("../models/User.Model");
 const isAuth = require("../middlewares/isAuth");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
-const MessageModel = require("../Models/Message.model");
+const MessageModel = require("../models/Message.model");
 
 //CREATE NEW MESSAGE
 

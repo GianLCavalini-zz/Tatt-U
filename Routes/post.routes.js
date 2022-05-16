@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const PostModel = require("../Models/Post.Model");
-const UserModel = require("../Models/User.Model");
+const PostModel = require("../models/Post.Model");
+const UserModel = require("../models/User.Model");
 const isAuth = require("../middlewares/isAuth");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
 

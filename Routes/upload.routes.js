@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const uploadImg = require("../config/cloudinary.config");
+const uploadImg = require("../Config/cloudinary.config");
 
 router.post("/upload-image", uploadImg.single("picture"), (req, res) =>{
     if (!req.file){

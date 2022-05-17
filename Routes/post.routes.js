@@ -26,6 +26,7 @@ router.post("/create", isAuth, attachCurrentUser, async (req, res) => {
           );
 		res.status(200).json(createdPost);
 	} catch (err) {
+		console.log(err)
 		res.status(500).json(err);
 	}
 });
@@ -47,6 +48,7 @@ router.put("/update-post/:id", isAuth, attachCurrentUser, async (req, res) => {
 
 		res.status(200).json(updatedPost);
 	} catch (err) {
+		console.log(err)
 	  res.status(500).json(err);
 	}
   });
@@ -70,6 +72,7 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 		  return res.status(400).json({msg: "You can only delete your posts"})
 	  }
 	} catch (err) {
+	console.log(err)
 	  res.status(500).json(err);
 	}
   });
@@ -94,6 +97,7 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 		res.status(200).json("The post has been disliked");
 	  }
 	} catch (err) {
+	 console.log(err)
 	  res.status(500).json(err);
 	}
   });
@@ -109,6 +113,7 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 	  const post = await PostModel.findById(req.params.id).populate("owner");
 	  res.status(200).json(post);
 	} catch (err) {
+		console.log(err)
 	  res.status(500).json(err);
 	}
   });
@@ -122,6 +127,7 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 	  const posts = await PostModel.find({ userId: user._id });
 	  res.status(200).json(posts);
 	} catch (err) {
+		console.log(err)
 	  res.status(500).json(err);
 	}
   });

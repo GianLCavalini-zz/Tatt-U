@@ -40,7 +40,8 @@ router.get("/messages/:userId", isAuth, attachCurrentUser, async (req, res) => {
         return res.status(200).json(message);
     } catch(err) {
         console.log(err)
-    }
+        res.status(500).json(err)    
+    } 
 })
 
 // delete a message
@@ -56,6 +57,7 @@ router.delete("/delete-message/:messageId", isAuth, attachCurrentUser, async (re
 
 
     } catch(err) {
+        console.log(err)
         res.status(500).json(err);
     }
 

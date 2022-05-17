@@ -68,6 +68,7 @@ router.patch("/update-user-profile", isAuth, attachCurrentUser, async (req, res)
                 const salt = await bcrypt.genSalt(saltRounds);
                 const passwordHash = await bcrypt.hash(password, salt);
             } catch (err) {
+              console.log(err)
               return res.status(500).json(err);
             }
           }
@@ -111,6 +112,7 @@ router.get("/:id", isAuth, attachCurrentUser, async (req, res) => {
 	  const user = await UserModel.findById(req.params.id).populate("post");
 	  res.status(200).json(user);
 	} catch (err) {
+    console.log(err)
 	  res.status(500).json(err);
 	}
   });
@@ -157,6 +159,7 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
           res.status(403).json("you allready follow this user");
         }
       } catch (err) {
+        console.log(err)
         res.status(500).json(err);
       }
     } else {
@@ -182,6 +185,7 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
           res.status(403).json("you dont follow this user");
         }
       } catch (err) {
+        console.log(err)
         res.status(500).json(err);
       }
     } else {

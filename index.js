@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors")
-require("./config/db.config")();
+require("./Config/db.config")();
 
 const app = express();
 app.use(express.json());
@@ -19,6 +19,7 @@ app.use("/post", postRouter);
 
 const messageRouter = require("./Routes/message.routes");
 app.use("/chat", messageRouter)
+
 
 app.listen(Number(process.env.PORT), () => {
   console.log("Server up at port: ", process.env.PORT);

@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const PostModel = require("../Models/Post.Model");
 const UserModel = require("../Models/User.Model");
-const isAuth = require("../middlewares/isAuth");
-const attachCurrentUser = require("../middlewares/attachCurrentUser");
+const isAuth = require("../Middlewares/isAuth");
+const attachCurrentUser = require("../Middlewares/attachCurrentUser");
 const MessageModel = require("../Models/Message.model");
 
 //CREATE NEW MESSAGE
@@ -40,7 +40,8 @@ router.get("/messages/:userId", isAuth, attachCurrentUser, async (req, res) => {
         return res.status(200).json(message);
     } catch(err) {
         console.log(err)
-    }
+        res.status(500).json(err)    
+    } 
 })
 
 // delete a message
@@ -56,6 +57,7 @@ router.delete("/delete-message/:messageId", isAuth, attachCurrentUser, async (re
 
 
     } catch(err) {
+        console.log(err)
         res.status(500).json(err);
     }
 

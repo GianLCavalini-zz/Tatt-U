@@ -20,7 +20,7 @@ router.post("/create", isAuth, attachCurrentUser, async (req, res) => {
 			userId: loggedInUser._id
 		});
         await UserModel.findOneAndUpdate(
-            { userId: loggedInUser._id },
+            { _id: loggedInUser._id },
             { $push: { post: createdPost } },
             { runValidators: true, new: true }
           );

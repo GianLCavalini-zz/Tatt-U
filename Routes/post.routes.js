@@ -121,9 +121,9 @@ router.delete("/delete-post/:id", isAuth, attachCurrentUser, async (req, res) =>
 
   //get artist's all posts
   
-  router.get("/profile/:artistname", async (req, res) => {
+  router.get("/profile/:artistId", async (req, res) => {
 	try {
-	  const user = await UserModel.findOne({ name: req.params.artistname });
+	  const user = await UserModel.findOneById( req.params.artistId );
 	  const posts = await PostModel.find({ userId: user._id });
 	  res.status(200).json(posts);
 	} catch (err) {

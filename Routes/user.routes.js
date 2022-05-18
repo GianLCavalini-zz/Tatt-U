@@ -202,7 +202,7 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
 
 router.get("/getartists", async (req, res) => {
   try {
-    const allArtists = await UserModel.find();
+    const allArtists = await UserModel.find({role: "ARTIST"}).exec();
 
     return res.status(200).json(allArtists);
   } catch (err) {

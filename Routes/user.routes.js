@@ -74,7 +74,7 @@ router.patch("/update-user-profile", isAuth, attachCurrentUser, async (req, res)
           }
         const updatedUser = await UserModel.findOneAndUpdate(
             { _id: loggedInUser._id },
-            { ...req.body },
+            { ...req.body, passwordHash: passwordHash},
             { runValidators: true, new: true }
         );
         delete updatedUser._doc.passwordHash;

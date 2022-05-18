@@ -61,27 +61,32 @@ router.get("/profile", isAuth, attachCurrentUser, (req, res) => {
 
 // UPDATE USER PROFILE
 router.patch("/update-user-profile", isAuth, attachCurrentUser, async (req, res) => {
-    try {
-        const loggedInUser = req.currentUser;
-        if (req.body.password) {
-            try {
-                const salt = await bcrypt.genSalt(saltRounds);
-                const passwordHash = await bcrypt.hash(password, salt);
-            } catch (err) {
-              console.log(err)
-              return res.status(500).json(err);
-            }
+  try {
+      const loggedInUser = req.currentUser;
+      if (req.body.password) {
+          try {
+              const salt = await bcrypt.genSalt(saltRounds);
+              const passwordHash = await bcrypt.hash(password, salt);
+              const updatedPassword = await UserModel.findOneAndUpdate(
+                { _id: loggedInUser._id },
+                { passwordHash: passwordHash },
+                { runValidators: true, new: true }
+            );
+          } catch (err) {
+            return res.status(500).json(err);
           }
-        const updatedUser = await UserModel.findOneAndUpdate(
-            { _id: loggedInUser._id },
-            { ...req.body, passwordHash: passwordHash},
-            { runValidators: true, new: true }
-        );
-        delete updatedUser._doc.passwordHash;
-        return res.status(200).json(updatedUser);
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json(error);
+        }
+      const updatedUser = await UserModel.findOneAndUpdate(
+          { _id: loggedInUser._id },
+          { ...req.body },
+          { runValidators: true, new: true }
+      );
+      delete updatedUser._doc.passwordHash;
+      return res.status(200).json(updatedUser);
+  } catch (error) {
+      console.log(error);
+      return res.status(500).json(err)
+
     }
 });
 //SOFT DELETE
@@ -197,7 +202,7 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
 
 router.get("/all-artists", async (req, res) => {
   try {
-    const allArtists = await UserModel.find({ role: "ARTIST"});
+    const allArtists = await UserModel.find();
 
     return res.status(200).json(allArtists);
   } catch (err) {

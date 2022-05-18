@@ -60,7 +60,7 @@ router.get("/profile", isAuth, attachCurrentUser, (req, res) => {
 });
 
 // UPDATE USER PROFILE
-router.patch("/user/update-user-profile", isAuth, attachCurrentUser, async (req, res) => {
+router.patch("/update-user-profile", isAuth, attachCurrentUser, async (req, res) => {
     try {
         const loggedInUser = req.currentUser;
         if (req.body.password) {

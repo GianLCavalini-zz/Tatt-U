@@ -200,7 +200,7 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
 
   // get all users
 
-router.get("/getartists", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const allArtists = await UserModel.find({});
 

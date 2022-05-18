@@ -60,7 +60,7 @@ router.get("/profile", isAuth, attachCurrentUser, (req, res) => {
 });
 
 // UPDATE USER PROFILE
-router.patch("/update-user-profile", isAuth, attachCurrentUser, async (req, res) => {
+router.patch("/user/update-user-profile", isAuth, attachCurrentUser, async (req, res) => {
     try {
         const loggedInUser = req.currentUser;
         if (req.body.password) {
@@ -192,6 +192,20 @@ router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) =>
       res.status(403).json("you cant unfollow yourself");
     }
   });
+
+  // get all users
+
+router.get("/all-artists", async (req, res) => {
+  try {
+    const allArtists = await UserModel.find({ role: "ARTIST"});
+
+    return res.status(200).json(allArtists);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
   
  
 

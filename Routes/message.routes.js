@@ -27,19 +27,23 @@ router.post("/:artistId", isAuth, attachCurrentUser, async (req, res) => {
     }
   });
 
-  router.get("/", isAuth, attachCurrentUser, async (req, res) => {
-    const loggedInUser = req.currentUser;
-    try {
-      const messages = await MessageModel.find({
-        senderId: loggedInUser._id,
-      });
-      res.status(200).json(messages);
-      console.log(messages)
-    } catch (err) {
-        console.log(err)
-      res.status(500).json(err);
-    }
-  });
+// get message between two users
+
+router.get("/:receiverId", isAuth, attachCurrentUser, async (req, res) => {
+  const loggedInUser = req.currentUser;
+  try {
+    const messages = await MessageModel.find({
+      senderId: loggedInUser._id,
+      receiverId: req.params.receiverId,
+    });
+    res.status(200).json(messages);
+    console.log(messages)
+  } catch (err) {
+      console.log(err)
+    res.status(500).json(err);
+  }
+});
+
 
 
 // delete a message

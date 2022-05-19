@@ -124,26 +124,18 @@ router.get("/:id", isAuth, attachCurrentUser, async (req, res) => {
   
 
 //get following artists
-router.get("/following-artists/", isAuth, attachCurrentUser, async (req, res) => {
-    const loggedInUser = req.currentUser;
-    try {
-      
-      const artists = await Promise.all(
-        loggedInUser.followings.map((artistId) => {
-          return UserModel.findById(artistId);
-        })
-      );
-      let artistList = [];
-      artists.map((currentArtist) => {
-        const { _id, username, profilePicture } = currentArtist;
-        artistList.push({ _id, username, profilePicture });
-      });
-      res.status(200).json(artistList)
-    } catch (err) {
-        console.log(err)
-      res.status(500).json(err);
-    }
-  });
+router.get("/following-artists", isAuth, attachCurrentUser, async (req, res) => {
+  const loggedInUser = req.currentUser;
+  try {
+    
+    const artists = await UserModel.find({ followers: loggedInUser._id})
+    res.status(200).json(artists)
+  } catch (err) {
+      console.log(err)
+    res.status(500).json(err);
+  }
+});
+
   
   //follow a user
   

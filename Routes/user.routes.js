@@ -124,12 +124,13 @@ router.get("/:id", isAuth, attachCurrentUser, async (req, res) => {
   
 
 //get following artists
-router.get("/following-artists", isAuth, attachCurrentUser, async (req, res) => {
+router.get("/followingArtists", isAuth, attachCurrentUser, async (req, res) => {
   const loggedInUser = req.currentUser;
   try {
     
     const artists = await UserModel.find(loggedInUser.followings)
     res.status(200).json(artists)
+
   } catch (err) {
       console.log(err)
     res.status(500).json(err);

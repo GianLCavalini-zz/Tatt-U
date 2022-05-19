@@ -16,7 +16,7 @@ router.get("/:userId", async (req, res) => {
       let friendList = [];
       friends.map((friend) => {
         const { _id, username, profilePicture } = friend;
-        friendList.push({ _id, name, profilePicture });
+        friendList.push({ name, profilePicture });
       });
       res.status(200).json(friendList)
     } catch (err) {

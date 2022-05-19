@@ -9,7 +9,7 @@ router.get("/", isAuth, attachCurrentUser, async (req, res) => {
     const loggedInUser = req.currentUser;
     try {
       
-      const artists = await UserModel.find(loggedInUser.followings)
+      const artists = await UserModel.find({followers: loggedInUser.user._id})
       res.status(200).json(artists)
   
     } catch (err) {

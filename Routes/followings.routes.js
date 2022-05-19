@@ -5,15 +5,21 @@ const attachCurrentUser = require("../Middlewares/attachCurrentUser");
 
 
 //get following artists
-router.get("/", isAuth, attachCurrentUser, async (req, res) => {
-    const loggedInUser = req.currentUser;
+router.get("/:userId", async (req, res) => {
     try {
-      
-      const artists = await UserModel.find({followers: loggedInUser.user._id})
-      res.status(200).json(artists)
-  
+      const user = await UserModel.findById(req.params.userId);
+      const friends = await Promise.all(
+        user.followings.map((friendId) => {
+          return UserModel.findById(friendId);
+        })
+      );
+      let friendList = [];
+      friends.map((friend) => {
+        const { _id, username, profilePicture } = friend;
+        friendList.push({ _id, name, profilePicture });
+      });
+      res.status(200).json(friendList)
     } catch (err) {
-        console.log(err)
       res.status(500).json(err);
     }
   });

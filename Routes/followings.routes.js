@@ -4,7 +4,7 @@ const isAuth = require("../Middlewares/isAuth");
 const attachCurrentUser = require("../Middlewares/attachCurrentUser");
 
 
-//get following artists
+//get following artists lal
 router.get("/:userId", async (req, res) => {
     try {
       const user = await UserModel.finOne({_id: req.params.userId}).populate("followings");

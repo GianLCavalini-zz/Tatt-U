@@ -5,7 +5,7 @@ require("./config/db.config")();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin:process.env.REACT_APP_URL}))
+app.use(cors())
 
 
 const userRouter = require("./Routes/user.routes");

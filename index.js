@@ -20,9 +20,6 @@ app.use("/post", postRouter);
 const messageRouter = require("./Routes/message.routes");
 app.use("/chat", messageRouter)
 
-const followingsRouter = require("./Routes/followings.routes");
-app.use("/followings", followingsRouter) 
-
 
 app.listen(Number(process.env.PORT), () => {
   console.log("Server up at port: ", process.env.PORT);

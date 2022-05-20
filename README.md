@@ -1,5 +1,10 @@
 # Tatt-U(Back-end)
+**Acesse**:
 
+
+<p align= "center">
+<a href="https://tattuapp.netlify.app/"><img width="200" src="https://i.pinimg.com/originals/2a/98/1d/2a981dc9a28ecf3339397b9d161258fc.png" /></a>
+</p>
 
 
 **Sobre:**
@@ -46,6 +51,8 @@ Executa o aplicativo em seu servidor local.
 ## Links
 
 [Repositório Front-end](https://github.com/leoopardo/Tatt-U-React)\
-[Apresentação](https://prezi.com/i/gvw1vgji4t_3/)
+[Apresentação](https://prezi.com/i/gvw1vgji4t_3/)\
+[Visite nosso app aqui!](https://tattuapp.netlify.app/)
+
 
 

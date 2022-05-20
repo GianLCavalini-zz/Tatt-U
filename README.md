@@ -3,7 +3,7 @@
 
 
 **Sobre:**
-Tatt-u é um app desenvolvido para ligar você aos melhores tatuadores da sua região! Siga novos artistas, acompanhe de perto seu trabalho e faça uma nova tatuuu! Além da experiêcia do usuário Tatt-u também angaja a rede de clientes dos artistas que tem seu perfil dentro do Tatt-u
+Tatt-u é um app desenvolvido para ligar você aos melhores tatuadores da sua região! Siga novos artistas, acompanhe de perto seu trabalho e faça uma nova tatuuu! Além da experiêcia do usuário, Tatt-u também engaja os artistas que tem seu perfil dentro do app. 
 
 
 **Tecnologias Usadas:** \
@@ -28,7 +28,7 @@ Tatt-u é um app desenvolvido para ligar você aos melhores tatuadores da sua re
 
 ## Para desenvolvedores
 
-Este projeto foi inicializado com [Create React App](https://github.com/facebook/create-react-app).
+Este repositório é o Back-end do app Tatt-u
 
 **Comandos disponíveis**
 
@@ -38,17 +38,14 @@ No terminal de seu diretório digite os seguintes comandos:
 
 Responsável por instalar todas as dependências e rodar o app em sua máquina.
 
-**`npm start`**
+**`npm run dev`**
 
+Executa o aplicativo em seu servidor local.
 
-Executa o aplicativo no modo de desenvolvimento.\
-Abra [http://localhost:3000](http://localhost:3000) para visualizá-lo em seu navegador.
-
-
-A página será recarregada quando você fizer alterações.\
-Você também pode ver erros no console.
 
 ## Links
+
+[Repositório Front-end](https://github.com/leoopardo/Tatt-U-React)
 
 
 
